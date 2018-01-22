@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ngModelController中有几个属性可以检查甚至修改视图
+1.$viewValue 保存着更新视图所需的实际字符串
+2.$modelValue 又数据模型持有,$modelValue和$viewValue可能是不同的,取决于$parser流水线是否对其进行了操作
+3.$parsers 值是一个由函数组成的数组,其中的函数会以流水线的形式被逐一调用
+4.$formatters 值是一个由函数组成的数组,其中的函数会以流水线的形式在数据模型的值发生变化时被逐一调用,和$parser不影响,用来对值进行格式化和转换,以便在绑定了这个值的控件中显示
+5.$viewChangeListeners 值是一个由函数组成的数组,其中的函数会以流水线的形式在视图中的值发生变化时被逐一调用,可以在无需使用$watch的时候实现类似行为,由于返回值被忽略,因此这些函数不需要返回值
+6.$error 对象中保存着没有通过验证的验证器名称以及对应的错误信息
+7.$pristine  值是布尔型,可以告诉我们用户是否对控件进行了修改
+8.$dirty 的值与$pristine相反,可以告诉我们用户是否和控件进行过交互
+9.$valid 的值告诉我们当前的控件中是否有错误
+10.$invalid 值告诉我们当前控件中是否存在至少一个错误,他的值和$valid相反
+-->
+</body>
+</html>

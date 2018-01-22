@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--元素的显示与隐藏是通过移除或添加ng-hide这个css类来实现的,.ng-hide类被预先定义在了angular的css文件中,并且它的display属性值是none(用了!important标记)-->
+<div ng-show="2+2==5">
+    don't show
+</div>
+<div ng-show="2+2==4">
+    show
+</div>
+<div ng-hide="2+2==5">
+    show
+</div>
+<div ng-hide="2+2==4">
+    hide
+</div>
+
+</body>
+</html>

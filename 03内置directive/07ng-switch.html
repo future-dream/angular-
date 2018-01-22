@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body ng-controller="MyController">
+<!--这个指令和ng-switch-when及on="propertyName"一起使用,可以在propertyName发生变化时渲染不同的指令到视图中,例子,当person.name="Ari"时文本域下面的div会显示出来   -->
+<input type="text" ng-model="person.name">
+<div ng-switch on="person.name">    <!--在ng-switch调用之前我们用ng-switch-default来输出默认值-->
+    <p ng-switch-default>and the winner is</p>
+    <h1 ng-switch-when="Ari">{{person.name}}</h1>
+</div>
+</body>
+<script>
+    angular.module("app",[]).controller("MyController", function ($scope) {
+
+    })
+
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!--通过$inject属性来实现显示注入声明的功能  函数对象的$inject属性是一个数组,数组元素的类型是字符串,他们的值就是需要被注入的服务的名称-->
+
+<script>
+    var aControllerFactory= function  aController($scope,greeter) {
+        console.log("load controller",greeter);
+        //...控制器
+    }
+    aControllerFactory.$inject = ['$scope','greeter'];
+    //greeter服务
+    var  greeterService = function () {
+        console.log("greeter service")
+    }
+    //我们应用的控制器
+    angular.module('app',[])
+            .controller('MyController',aControllerFactory)
+            .factory('greeter',greeterService);
+    //获取注入器并创建一个新的作用域
+    var injector=angular.injector(['ng','app']),
+            controller = injector.get('$controller'),
+            rootScope = injector.get('$rootScope'),
+            newScope = rootScope.$new();
+    //调用控制器
+    controller('MyController',{$scope:newScope})
+
+    //对于这种声明方式来讲,参数顺序是非常重要的,因为$inject数组元素的顺序必须和注入参数的顺序一一对应
+
+    //第二种方案是行内注入声明  直接传入一个参数数组而不是一个函数,数组的元素是字符串,代表可以被注入到对象中的依赖的名字,最后一个参数就是依赖注入的目标函数对象本身
+    angular.module('app')
+            .controller('MyController',['$scope','greeter', function ($scope,greeter) {
+                
+            }])
+</script>
+</body>
+</html>

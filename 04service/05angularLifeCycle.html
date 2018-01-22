@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--
+一.编译阶段,angular会遍历整个html文档并根据js中的指令定义来处理页面上声明的指令
+  编译后的模板会返回一个模板函数,我们有机会在模板函数被返回之前,对编译后的dom树进行修改
+二.链接阶段,
+三.最后模板函数被传递给编译后的dom树中每个指令定义规则中指定的链接函数
+-->
+
+<!--compile选项返回一个对象或函数
+compile选项本身并不会被频繁使用,但是link函数则会经常使用,本质上,当我们设置了link选项,实际上是创建了一个postLink()函数,以便compile()函数可以定义链接函数
+通常情况下,如果设置了compile函数,说明我们希望在指令和实时数据被放到dom中之前进行dom操作,在这个函数中进行诸如添加节点等dom操作是安全的
+
+compile和link选项是互斥的,如果同时设置了这两个选项,那么会把compile所返回的函数当做链接函数,而link选项本身则会被忽略
+
+-->
+<!--编译函数负责对模板dom进行转换,链接函数负责将作用域和dom进行链接-->
+
+<!--用link函数创建可以操作dom的指令
+链接函数是可选的,如果定义了编译函数,它会返回链接函数,因此当两个函数都定义了时,编译函数会重载链接函数,
+-->
+
+<!--下面两种定义指令的方式在功能上是完全一样的-->
+<script>
+    angular.module("app",[])
+            .directive("myDirective", function () {
+                return{
+                    pre: function (tElement,tAttr,transclude) {
+                        //在子元素被链接之前执行
+                        //在这里进行dom转换不安全
+                        //之后调用link函数将无法定位要链接的元素
+                    },
+                    post: function (socpe, iElement, iAttrs, controller) {
+                        //在子元素被链接之后执行
+                        //如果在这里省略掉编译选项
+                        //在这里执行dom转换和链接函数一样安全吗
+                    }
+                }
+            })
+    angular.module("app",[])
+            .directive("myDirective",function(){
+                return{
+                    link: function (scope, ele, attrs) {
+                        return{
+                            pre: function (tElement,tAttr,transclude) {
+                                //在子元素被链接之前执行
+                                //在这里进行dom转换不安全
+                                //之后调用link函数将无法定位要链接的元素
+                            },
+                            post: function (socpe, iElement, iAttrs, controller) {
+                                //在子元素被链接之后执行
+                                //如果在这里省略掉编译选项
+                                //在这里执行dom转换和链接函数一样安全吗
+                            }
+                        }
+                    }
+                }
+            })
+
+    //当定义了编译函数来取代链接函数时,链接函数是我们能提供给返回对象的第二个方法,也就是postLink函数,本质上讲,这个事实证明了链接函数的作用,
+    //它会在模板编译并同作用域进行链接后被调用,因此它负责设置事件监听器,监视数据变化和实时的操作dom
+
+    //链接函数的签名如下,
+    /*
+    link:function(scope,element,attrs){
+        //在这里操作dom
+    }
+    */
+
+    //如果指令中有require选项,函数签名中会有第四个参数,代表控制器或者所依赖的指令控制器
+    /*
+    require 'SomeController',
+    link:function(scope,element,attrs,SomeController){
+    //操作dom,可以访问require指定的控制器
+    }
+    */
+
+    //如果require选项提供了一个指令数组,第四个参数会是一个由每个指令所对应的控制器组成的数组
+
+    //链接函数中的参数:
+    /*
+    scope:指令用来在其内部注册监听器的作用域
+     iElement:代表实例元素,指使用此指令的元素,在postLink函数中我们应该只操作此元素的子元素,因为子元素已经被链接过了
+     iAttrs:代表实例属性,是一个由定义在元素上的属性组成的标准话化列表,可以在所有指令的链接函数间共享,会以js对象的形式进行传递
+     controller:指向require选项定义的控制器,如果没有设置require选项,那么controller参数的值为undefined
+    * */
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="MyController">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+
+<!--
+可以注入到指令中的服务有:
+1.$scope  与指令元素相关联的当前作用域
+2.$element  当前指令对应的元素
+3.$attrs  由当前元素的属性组成的对象,例:
+    <div id="aDiv" class="box"></div>
+    具有如下的属性对象:
+    {
+        id:"aDiv",
+        class:"box"
+     }
+4.$transclude  嵌入链接函数会与对应的嵌入作用域进行预绑定
+transclude链接函数是实际被执行用来克隆元素和操作DOM的函数
+(在控制器内部操作DOM是与angular风格相悖的,但通过链接函数可以实现此需求,仅在compile参数中使用transcludeFn是推荐的做法)
+-->
+<!--通过指令来添加一个超链接标签,可以在控制器内的$transclude函数中实现-->
+<!--<div ng-controller="MyController">-->
+    <my-link>baidu</my-link>
+    <my-link>http://www.baidu.com</my-link>
+<!--</div>-->
+<!--指令的控制函数和link函数可以互换,控制器主要是用来提供可在指令间复用的行为,但链接函数只能在当前内部指令中定义行为,且无法在指令间复用-->
+<!--link函数可以将指令互相隔离开来,而controller则定义可复用的行为,由于指令可以require其他指令所使用的控制器,因此控制器常被用来放置在多个指令间共享的动作-->
+<script>
+    angular.module("app",[])
+            .controller("MyController", function () {
+                
+            })
+            .directive("myLink", function () {
+                return{
+                    restrict:'EA',
+                    transclude:true,
+                    controller: function ($scope,$element,$transclude,$log) {  //当想要同当前屏幕上的作用域交互时,可以使用被传入到link函数中的$scope参数
+                        $transclude(function (clone) {
+                            var a = angular.element('<a>');
+                            a.attr('href',clone.text());
+                            a.text(clone.text());
+                            $log.info("Create new a tag in link directive");
+                            $element.append(a);
+                        })
+                    }
+                }
+            })
+</script>
+</body>
+</html>

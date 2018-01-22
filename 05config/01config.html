@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--模块的加载阶段,angular会在提供者注册(provider)和配置的过程中对模块进行配置,这个阶段是唯一能够在应用启动前进行修改的部分
+angular.module("app",[]).config(function(){$provide})
+-->
+<!--eg,我们在某个模块上创建一个服务或指令时:
+angular.module('app',[])
+.factory('myFactory',function(){
+    var service={};
+    return service;
+})
+.directive('myDirective',function(){
+    return {template:'<button>Click Me</button>'}
+})
+编译时执行这些辅助函数,他们在功能上等同于下面的写法:
+angular.module('app',[])
+.config(function($provide,$compileProvider){
+    var service={};
+    return service;
+})
+.directive('myDirective',function(){
+    return {template:'<button>Click Me</button>'}
+})
+需要注意的是,angular会以这些函数书写和注册的顺序来执行他们,也就是说我们无法注入一个尚未注册的提供者
+唯一例外的是constant()方法,这个方法总会在所有配置块之前被执行
+-->
+
+<!--当对模块进行配置时,只有少数几种类型的对象可以被注入到config()函数中:提供者和常量,如果将一个服务注入进去,会在真正对其进行配置前就意外地把服务实例化了
+这种对配置服务进行严格限制的另外一个副作用是,我们只能注入用provider()语法构建的服务,其他的则不行
+-->
+
+<!--config()可以对我们的服务进行自定义配置,例如设置API秘钥或者自定义url等.  也可以定义多个配置块,会按照顺序执行,这样就可以把应用不同阶段的配置代码集中在不同的代码块中-->
+<script>
+    angular.module('app',[])
+            .config(function ($routeProvider) {
+                $routeProvider.when('/',{
+                    controller:"MyController",
+                    template:"view/welcom.html"
+                });
+            })
+            .config(function (ConnectionProvider) {
+                ConnectionProvider.setApiKey('SOME_API_KEY')
+            })
+    //config()函数接受一个参数,即configFunction(函数):angular在模块加载时会执行这个函数
+</script>
+</body>
+</html>

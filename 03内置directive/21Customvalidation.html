@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--通过指令添加自定义验证
+eg:验证username在数据库中是否合法,可以实现一个指令在表单发生变化时发送ajax请求
+-->
+<input type="text" placeholder="desired username" name="username" ng-model="signup.username" ng-minlength="3" ng-maxlength="20" my-directive="username" required>
+<script>
+    angular.module("app",[])
+            .directive("myDirective", function ($http) {
+                return{
+                    require:'ngModel',
+                    link: function (scope, ele, attrs, c) {
+                        scope.$watch(attrs.ngModel, function () {
+                            $http({
+                                method:'post',
+                                url:'/api/check/'+attrs.myDirective,
+                                data:{field:attrs.myDirective,valud:scope.ngModel}
+                            }).success(function (data, status, headers, cfg) {
+                                c.$setValidity('unique',data.isUnique);
+                            }).error(function (data, status, headers, cfg) {
+                                c.$setValidity('unique',false);
+                            })
+                        })
+                    }
+                }
+            })
+    //在这个自定义验证中,每当ngModel中对应的字段发生变化就会像服务器发送请求,以检查用户名是否是唯一的
+</script>
+</body>
+</html>

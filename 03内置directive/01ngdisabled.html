@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="myController">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<input type="text" ng-model="aa" placeholder="TypeToEnable">
+<button ng-model="button" ng-disabled="!aa">aButton</button>
+<!--1直到输入框中输入字符,按钮才不会禁用-->
+
+<br>
+<input type="text" ng-model="bb" placeholder="TypeToEnable">
+<input type="text" ng-readonly="bb" value="some text">
+<!--2直到输入框中输入字符,input才是只读-->
+
+<br>
+<textarea ng-disabled="isDisabled">wait 5 seconds</textarea>
+<!--5s后textarea才可以输入-->
+
+<br>
+<label>someProperty={{someProperty}}</label>
+<input type="checkbox" ng-checked="someProperty" ng-init="someProperty=true" ng-model="someProperty">
+<!--默认选中-->
+
+<br>
+<label>select two fish</label>
+<input type="checkbox" ng-model="isTwoFish">
+<select>
+    <option>one fish</option>
+    <option ng-selected="isTwoFish">two fish</option>
+</select>
+<!--可以对是否出现option 标签的selected属性进行绑定-->
+
+<script>
+//    angular.module("app",[])
+//            .directive("myDirective", function () {
+//
+//            })
+
+    angular.module("app",[])
+//            .run(function ($rootScope,$timeout) {
+//                $rootScope.isDisabled=true;
+//                $timeout(function () {
+//                    $rootScope.isDisabled=false;
+//                },5000);
+//            })
+        .controller("myController", function ($scope,$timeout) {
+                $scope.isDisabled=true;
+                $timeout(function () {
+                    $scope.isDisabled=false;
+                },5000)
+            })
+</script>
+</body>
+</html>

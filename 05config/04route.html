@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<script src="../js/angularjs/angular-route.min.js"></script>
+<body>
+<!--使用angular提供的when和otherwise两个方法来定义应用的路由,用config函数在特定的模块或应用中定义路由-->
+
+<script>
+    angular.module('app',[])
+            .config(['$routeProvider', function ($routeProvider) {//数组  依赖注入语法
+                //在这里定义路由
+                $routeProvider
+                        .when('/',{
+                            templateUrl:'views/home.html',
+                            controller:"HomeController"
+                        })
+                        .when('/login',{
+                            templateUrl:'views/login.html',
+                            controller:"LoginController"
+                        })
+                        .when('/dashboard',{
+                            templateUrl:'views/dashboard.html',
+                            controller:"DashboardController",
+                            resolve:{
+                                user: function (SessionService) {
+                                    return SessionService.getCurrentUser();
+                                }
+                            }
+                        })
+
+                //第一个参数是路由路径,这个路径会与$location.path(即当前url)进行匹配,如果路径后面还有其他内容,或使用了双斜线也可以正常匹配,我们可以在url中存储参数,参数需要以:开头(eg,:name)
+                //第二个参数是配置对象,决定了当第一个参数中的路由能够匹配时具体做什么,配置对象中可以进行设置的属性包括templateURL,controller,template,resolve,redirectTo和reloadOnSearch
+            }])
+</script>
+</body>
+</html>
+
+<!--
+1,controller
+    controller:"MyController"  会在模块中所有注册过的控制器中查找对应内容,然后与路由关联一起
+    或  controller:function($scope){}  这个函数会作为模板中dom元素的控制器并与模板进行关联
+2,template
+    template:"<div><h2>Route</h2></div>  angular会将配置对象中的html模板渲染到对应的具有ng-view指令的dom元素中
+3.templateUrl
+    templateUrl:'views/template_name.html' 应用会根据templateUrl属性所指定的路径通过XHR读取视图(或从$templateCache中读取),如果有值,angular会将模板的内容渲染到具有ng-view指令的dom元素中
+4.resolve
+    resolve:{
+        'data':['$http',function($http){
+            return $http.get('/api').then{
+            function success(response){return response.data};
+            function error(reason) {return false;}
+        }]
+    }
+    如果设置了resolve属性,angular会把列表中的元素都注入到控制器中,如果这些依赖是promise对象,它们在控制器加载以及$routeChangeSuccess被触发之前,会被resolve并设置成一个值
+    列表对象可以是:
+        键,键值是会被注入到控制器中的依赖的名字
+        工厂,即可以是一个服务的名字,也可以是一个返回值,它是会被注入到控制器中的函数或可以被resolve的promise对象
+
+     在上面的例子中,resolve会发一个$http请求,并将data的值替换为返回结果的值,列表中的键data会被注入到控制器中,所以可以在控制器中使用它
+5,redirectTo
+    redirectTo:'/home'  表示路径被替换为这个值,并根据这个路径触发路由变化
+    或者redirectTo:function(route,path,search){}  路径会被替换成函数的返回值,并根据这个路径触发路由变化,传入的三个参数,a,从当前路径中提取的路由参数 b,当前路径 c,当前url中的查询串
+6,reloadOnSearch
+    如果reloadOnSearch选项被设置为true(默认),当$location.search()发生变化时会重新加载路由,如果设置为false,那么当url中的查询串部分发生变化时就不会重新加载路由,这个小窍门对路由嵌套和原地分页等有用
+
+    eg:用when函数设置路由
+    angular.module('app',[])
+    .config(['$routeProvider',function($routeProvider){
+        $routeProvider
+        .when('/',{
+            controller:'HomeController',
+            templateUrl:'view/home.html'
+        })
+        .when('/inbox/:name',{
+            controller:'InboxController',
+            templateUrl:'views/inbox.html'
+        })
+        .otherwise({redirectTo:'/'})
+    }])
+    如上,用when方法设置了两个路由,otherwise方法会在没有路由匹配时被调用,我们用它设置了一个默认跳转到'/'路径的路由
+    当浏览器加载angular应用时,会将URL设置成默认路由所指向的路径  除非我们在浏览器中加载不同的URL,否则默认使用/路由
+
+    $routeParams 前面提到如果在路由参数的前面加上:  angular会把它解析出来并传递给$routeParams
+    eg:若我们设置如下路由
+    $routeProvider
+    .when('/inbox/:name',{
+        controller:'HomeController',
+        templateUrl:'views/inbox.html'
+    })
+    angular会在$routeParams中添加一个名为name的键,它的值会被设置为加载进来的URl中的值
+    如果浏览器加载/inbox/all这个url,那么$routeParams对象看起来会是这样的: {name:all} 注意, 如果在控制器访问这些变量,需要把$routeParams注入进控制器:
+    app.controller('InboxController',function($scope.$routeParams){
+    //在这里访问$routeParams
+    })
+-->

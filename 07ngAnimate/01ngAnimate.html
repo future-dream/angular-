@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    div{
+        transition:all linear 0.5s;
+        background-color: lightblue;
+        height:100px;
+        width:100%;
+        position: relative;
+        top:0;
+        left:0;
+    }
+    .ng-hide{
+        /*height: 0;*/
+        /*width: 0;*/
+        /*background-color: transparent;*/
+        /*top: -200px;*/
+        /*left:200px;*/
+        animation: 0.5s myChange;
+    }
+    @keyframes myChange {
+        from{
+            /*width:600px;*/
+            height: 100px;
+        }to{
+        height:0;
+                     /*width: 0;*/
+                 }
+    }
+</style>
+<script src="../js/angularjs/angular.min.js"></script>
+<script src="../js/angularjs/angular-animate.min.js"></script>
+<body ng-app="ngAnimate">
+隐藏div:
+<input type="checkbox" ng-model="mycheck" ng-init="mycheck=true" >
+<div ng-hide="mycheck"></div>
+<script>
+    //var app=angular.module('app',['ngAnimate']);//body标签ng-app="app"已经设置了应用名  可将ngAnimate直接添加在模型中
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<style>
+    .content{
+        width: 200px;
+        height: 100px;
+        background-color: pink;
+    }
+</style>
+<body>
+<!--transclude(嵌入)是一个可选的参数,如果设置了,其值必须是true,默认false-->
+<!--嵌入通常用来创建可复用的组件,典型例子是模态对话框或导航栏
+我们可以将整个模板包括其中的指令通过嵌入全部传入一个指令中,这样做可将任意内容和作用域传递给指令,指令的内部可以访问外部指令的作用域,并且整个模板也可以访问外部的作用域对象
+为了将作用域传递出去,scope参数的值必须通过{}或者true设置成隔离作用域,如果没有设置scope参数,那么指令内部的作用域将被设置为传入模板的作用域
+只有当你希望创建一个可以包含任意内容的指令时,才使用transclude:true
+-->
+<!--例子,创建一个复用的侧边栏,同wordpress博客类似,-->
+<div sidebox title="Links">
+    <ul>
+        <li>First Link</li>
+        <li>Second Link</li>
+    </ul>
+</div>
+<div sidebox title="TagCloud">
+    <ul>
+        <li>First Link2</li>
+        <li>Second Link2</li>
+    </ul>
+</div>
+<script>
+    angular.module("app",[])
+            .directive("sidebox",function(){
+                return{
+                    restrict:"EA",
+                    scope:{
+                        title:"@"
+                    },
+                    transclude:true,
+                    template:'<div class="sidebox">\
+                    <div class="content">\
+                    <h2 class="header">{{title}}</h2>\
+                    <span class="content" ng-transclude >\
+                    </span>\
+                    </div>\
+                    </div>'
+                };
+            })
+    //如果指令中使用了transclude参数,那么控制器中就无法正常监听数据模型的变化了,这就是最佳实践总是建议在链接函数里使用$watch服务的原因
+
+
+</script>
+</body>
+</html>

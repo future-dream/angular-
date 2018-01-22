@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--controllerAs参数设置控制器的别名,可以此来发布控制器,并且作用域可以访问controllerAs.这样就可在视图中引用控制器,甚至无需注入$scope-->
+<!--eg,创建一个控制器,不要注入$scope   html中无需引用作用域就可以使用控制器-->
+<div ng-controller="MyController as main">
+    <input type="text" ng-model="main.name">
+    <span>{{main.name}}</span>
+</div>
+<div >
+    <my-directive></my-directive>
+</div>
+<script>
+    angular.module('app',[])
+            .controller("MyController", function () {
+                this.name="wqq";
+            })
+    //这个参数看起来没啥大用,但它给了我们可以在路由和指令中创建匿名控制器的强大能力,这种能力可以将动态的对象创建成为控制器,并且这个对象是隔离的,易于测试的
+            .directive('myDirective', function () {
+                return{
+                    restrict:"EA",
+                    template:'<h4>{{myController.msg}}</h4>',
+                    controllerAs:'myController',
+                    controller: function () {
+                        this.msg='hello world'
+                    }
+                }
+            })
+</script>
+</body>
+</html>

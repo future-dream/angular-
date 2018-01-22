@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ng-submit用来将表达式同onsubmit事件进行绑定,这个指令同时会阻止默认行为(发送请求并重新加载页面),但前提是表单不含有action属性-->
+<form ng-submit="submit()" ng-controller="MyController">Enter text and hit enter:
+<input type="text" ng-model="person.name" name="person.name">
+    <code>people={{people}}</code>
+    <ul ng-repeat="(index,object) in people">
+        <li>{{object.name}}</li>
+    </ul>
+</form>
+<script>
+    angular.module("app",[])
+            .controller("MyController", function ($scope) {
+//                $scope.person= {   //好像没有影响呀
+//                    name: null
+//                }
+                $scope.people=[];
+                $scope.submit= function () {
+                    if($scope.person.name){
+                        $scope.people.push({name:$scope.person.name});
+                        $scope.person.name=''; //保证上次输入的值自动清空
+                    }
+                }
+            })
+</script>
+</body>
+</html>

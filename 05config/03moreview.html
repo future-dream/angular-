@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<script src="../js/angularjs/angular-route.min.js"></script>
+<body>
+<!--除了用ng-include指令在视图中引用多个模板之外,更好的做法是将视图分解成布局和模板视图,并且根据用户当前访问的url来展示对应的视图
+我们会将这些模板分解到视图中,并在布局模板内进行组装,,angular允许我们在$route服务的提供者$RouteProvider中通过声明路由来实现,
+通过$routeProvider,可以发挥出浏览器历史导航的优势,并让用户基于浏览器当前的url地址创建书签或页面分享
+-->
+<!--需要引入angular-route.min.js文件,还需要把ngRoute模块在我们的应用中当作依赖加载进来 angular.module('app',['ngRoute'])-->
+
+<!--布局模板,要创建一个布局模板,需要修改HTMl以告诉angular把模板渲染到何处,.
+通过将ng-view指令和路由组合到一起,就可以指定当前路由对应的模板在dom中的渲染位置
+ng-view是由ngRoute模块提供的一个特殊指令,他的独特作用是在HTML中给$route对应的视图占位  它会创建自己的作用域并将模板嵌入在内
+ng-view是一个优先级为1000的终极指令,angular不会运行同一个元素上的低优先级指令(eg:<div ng-view></div>元素上其他指令都是没有意义的)
+-->
+<!--ng-view 遵循的规则
+1.每次触发$routeChangeSuccess事件,视图都会更新
+2.如果某个模板同当前的路由相关联:
+    a,创建一个新作用域
+    b,移除上一个视图,同时上一个作用域也会清除
+    c,将新的作用域同当前模板关联在一起
+    d,如果路由中有相关的定义,那么就把对应的控制器同当前作用域关联起来
+    e,触发$viewContentLoaded事件
+    f,如果提供了onload属性,调用该属性所指定的函数
+-->
+</body>
+</html>

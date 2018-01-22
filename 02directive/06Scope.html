@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--用指令改变dom作用域-->
+<div ng-app="app" ng-init="someProperty='some data'">
+    <div ng-init="siblingProperty='more data'">
+        Inside Div two:{{aThirdProperty}}
+        <div ng-init="aThirdProperty='data for 3rd property'" ng-controller="MyController">
+            Inside Div three:{{aThirdProperty}}
+            <div ng-controller="SecondController">
+                Inside Div Four:{{aThirdProperty}}
+                <br>
+                Outside myDirective:{{myProperty}}
+                <div my-directive ng-init="myProperty='wow,this is cool'">
+                    Inside myDirective:{{myProperty}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+Inside Div two:
+Inside Div three:data for 3rd property
+Inside Div Four:data for 3rd property
+Outside myDirective:
+Inside myDirective:wow,this is cool
+-->
+<script>
+
+    angular.module("app",[])
+            .controller("MyController", function () {
+
+            })
+            .controller("SecondController", function () {
+
+            })
+            .directive("myDirective", function () {
+                return{
+                    restrict:'A',
+                    scope:true //创建一个能够从外部原型继承作用域的指令,将scope设置为true
+                }
+            })
+</script>
+</body>
+</html>

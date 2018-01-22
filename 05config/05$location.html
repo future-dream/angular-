@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--angular提供了一个服务用以解析地址栏中的URL,并让你可以访问应用当前路径所对应的路由,它同样提供了修改路径和处理各种形式的导航能力
+$location服务对js中的window.location对象进行了封装,且和angularjs集成在一起
+当应用需要在内部进行跳转时是使用$location服务的最佳场景,比如当用户注册后,修改或登录后进行的跳转
+$location服务没有刷新整个页面的能力,使用$window.location对象可以刷新整个页面
+-->
+<!--
+1.path() 用来获取页面当前路径 $location.path()返回当前路径
+  修改当前路径并跳转到应用中的另一个URL: $location.path('/') 把路径修改为'/'路由
+    path()方法直接和html5的历史api进行交互,用户可点击后退按钮回到上一个页面
+2.replace() 跳转后用户不能点击后退按钮
+    $location.path('/home');
+    $location.replace()
+    或者 $location.path('/home').replace()
+3.absUrl()  用来获取编码后的完整URL  $location.absUrl()
+4.hash()  用来获取url中的hash片段  $location.hash()返回当前的hash片段
+5.host()  用来获取URL中的主机  $location.host()
+6.port() 用来获取URL的端口号  $location.port()
+7.protocol() URL中的协议  $location.protocol()
+8.search()  URL中的查询串  $location.search()
+    可以向这个方法中传入新的查询参数,来修改URL中的查询串部分
+    //用对象设置查询
+    $location.search({name:'Ari',username:'auser'})
+    //用字符串设置查询
+    $location.search('name=Ari&username=auser')
+    search方法可以接受两个参数
+    a,search(可选,字符串或对象)  这个参数代表新的查询参数,hash对象的值可以是数组
+    b,paramValue(可选,字符串)  若search参数类型是字符串,那么paramValue会作为该参数的值覆盖URL当中的对应值 如果paramValue的值是null,对应的参数会被移除掉
+9.url()  $location.url()获取当前的url
+    如果调用url传入参数,会设置并修改当前url,这会同时修改url中的路径,查询串和hash 并返回$location
+    //设置新的url  $location.url('/home?name=Ari#hashthing')
+    url()可接受两个参数
+    a,url(可选,字符串) 新的url的基础的前缀   b,replace(可选,字符串) 想要修改的路径
+-->
+
+</body>
+</html>

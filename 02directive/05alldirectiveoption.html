@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html nf-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+
+
+<script>
+    angular.module("app",[])
+            .directive("myDirective", function () {
+                return {
+                    restrict:String,//默认是A(属性) E(元素),C(类名),M(注释)
+                    priority:Number,//ng-repeat是所有内置指令中优先级最高的
+                    terminal:Boolean,//该参数告诉angularjs停止运行当前元素上比本指令优先级低的指令,但同当前指令优先级相同的指令还是会被执行
+                    //使用terminal的例子是ngview和ngif,ngif优先级高于ngview,如果ngif表达式值是true,ngview可正常执行,如果是false,由于ngview的优先级较低就不会执行
+//                    template:String or Template Function:   //该参数是可选的,1,一段HTML文本,2.一个可接受两个参数的函数,并返回一个代表模板的字符串,  每一行的末尾的反斜线是为了angular能正确解析多行字符串,所以为了维护最好使用templateURL参数引用外部模板.
+//                            function(tElement,tAttrs){},
+                    templateUrl:String,//是可选的参数,可以是以下类型,1.一个代表外部的HTML文件路径的字符串,2. 可接受两个参数的函数,并返回一个外部html文件路径的字符串
+                    //默认情况下,调用指令时会在后台通过ajax来请求html模板文件,有两个事情需要知道,1在本地开发时,需要在后台运行一个本地服务器,用以从文件系统加载html模板,否则会导致cors错误2.模板加载是异步的,意味着编译和链接要暂停,等待模板加载完成
+//                    replace:Boolean or String, //可选参数,设置的话值必须是true,因为默认是false,默认意味着模板会被当做子元素插入到调用此指令的元素内部
+//                    scope:Boolean or Object//可选,设置为true或者一个对象,默认是false,当true时,会从父作用域继承并创建一个新的作用域对象
+                    //如果一个元素上有多个作用域使用了隔离作用域,其中只有一个可以生效,只有指令模板中的根元素可以获得一个新的作用域,因此对于这些对象来说scope默认被设置为true
+                    transclude:Boolean,
+//                    controller:String or function(){}
+                    controllerAs:String,
+                    require:String,
+                    link:function(scope,iElement,iAttrs){},
+                    compile://返回一个对象或连接函数,如下所示:
+                            function (tElement, tAttrs, transclude) {
+                                return {
+                                    pre: function (scope,iElement,iAttrs,controller) {},
+                                    post:function(scope,iElement,iAttrs,controller){}
+                                }
+                                //或者
+                                return function postLink(){}
+                            }
+                }
+            })
+</script>
+
+</body>
+</html>

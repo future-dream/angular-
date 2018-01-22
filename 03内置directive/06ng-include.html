@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="app" >
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ng-include可以加载编译并包含外部的html片段到当前应用中,需要考虑跨域资源共享(cors)和同源规则(sop)来确保模板可以在任何浏览器中正常加载-->
+<!--开发中,命令行命令chrome --allow-file-acess-from-files来禁止cors错误-->
+<!--使用ng-include时会自动创建一个子作用域-->
+
+<div ng-include="/myTemplateName.html" ng-controller="MyController" ng-init="name = 'word'" >
+  hello {{na}}
+</div>
+<script>
+    angular.module("app",[])
+            .controller("MyController", function ($scope) {
+               // $scope.na="qq";
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="app" >
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--directive()方法接受两个参数,一个是name,一个是function(返回一个对象),定义了指令的全部行为,$compile服务利用这个方法返回的对象,在dom调用指令时来构造指令的行为-->
+<!--angularjs启动时,会把第一个参数当做一个字符串,并以此字符串为名来注册第二个参数返回的对象.angularjs编译器会解析主HTML的dom中的元素/属性/注释/和css类名中
+使用了这个名字的地方,并在这些地方引用对应的指令,当它找到某个已经指令时,就会在页面中插入指令所对应的dom元素-->
+<!--<my-directive></my-directive>-->
+<div my-directive></div>
+<!--<div class="my-directive" ></div>-->
+<script>
+    angular.module("app",[])
+            .directive("myDirective", function () {
+                return{
+                    restrict:'EAC', //E元素 A属性(默认值,兼容浏览器比较强大,以及老版本IE) C类名 M注释
+                    replace:true,
+                    template:'<a href="http://www.baidu.com">click me to go to baidu</a>'
+                };
+    })
+</script>
+</body>
+</html>

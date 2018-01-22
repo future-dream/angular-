@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!--
+1,$routeChangeStart  angular 会在路由变化之前广播$routeChangeStart事件
+angular.module('app',[])
+.run(['$rootScope','$location',function($rootScope,$location){
+    $rootScope.$on('$rootChangeStart',function(evt,next,current){})
+}])
+$rootChangeStart事件带有两个参数:  a,将要导航到下一个url  b,路由变化前的URL
+2,$routeChangeSuccess  angular 会在路由的依赖被加载后广播$routeChangeSuccess事件
+angular.module('app',[])
+.run(['$rootScope','$location',function($rootScope,$location){
+    $rootScope.$on('$routeChangeSuccess',function(evt,next,previous){})
+}])
+$routeChangeSuccess事件有三个参数  a,原始的angular evt对象 b,用户当前所处的路由  c,上一个路由
+3,$routeChangeError angular 会在任何一个promise被拒绝或者失败时广播$routeChangeError事件
+angular.module('app',[])
+.run(['$rootScope','$location',function($rootScope,$location){
+    $rootScope.$on('$routeChangeError',function(current,previous,rejection){})
+}])
+$routeChangeError事件有三个参数  a,当前路由的信息  b,上一个路由的信息  c,被拒绝的promise的错误信息
+4.$routeUpdate  angular在reloadOnSearch 属性被设置为false的情况下,重新使用某个控制器的实例时,会广播$routeUpdate事件
+-->
+</body>
+</html>

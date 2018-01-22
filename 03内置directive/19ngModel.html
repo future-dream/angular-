@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ngModel是一个特殊用法的指令,ngModel控制器会随ngModel被一直注入到指令中,其中包含了一些方法,为了访问ngModelController必须使用require设置-->
+<script>
+    angular.module("app",[])
+            .directive("myDirective", function () {
+                return{
+                    require:'?ngModel',   //如果不设置require选项,ngModelController就不会被注入到指令中
+                    link: function (scope, ele, attrs, ngModel) {
+                        if(!ngModel) return;
+                        //现在我们的指令中已经有ngModelController的一个实例
+                    }
+                }
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="app"> <!--创建了$rootScope-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+{{someProperty}}
+<button ng-click="someAction()" value="anniu"></button>
+
+<br>
+<div ng-controller="myController" ><!--会以$rootScope或另外一个ng-controller的作用域为原型创建新的子作用域-->
+    {{someModel.someProperty}}
+    <button ng-click="someAction()">Comm</button>
+</div>
+<!--子作用域-->
+<script>
+    angular.module("app",[])
+            .run(function($rootScope){
+                $rootScope.someProperty="hello";
+                $rootScope.someAction= function () {
+                    $rootScope.someProperty="qq";
+                }
+            })
+
+            .controller("myController", function ($scope) {
+                $scope.someModel={
+                    someProperty:"hello2"
+                };
+                $scope.someAction= function () {
+                    $scope.someModel.someProperty="qq2";
+                };
+            })
+</script>
+</body>
+</html>

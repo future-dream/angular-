@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    .red{
+        background-color: red;
+    }
+</style>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ng-class动态设置元素的类,方法是绑定一个代表所有需要添加的类的表达式,重复的类不会添加,当表达式发生变化,先前添加的类会被移除,增加新类-->
+<!--实例,随机数大于5时将.red类添加到一个div上-->
+<div ng-controller="MyController">
+    <div ng-class="{red:x>5}" ng-if="x>5">you won</div>  <!--ng-if控制大于5时才显示div-->
+    <button ng-click="x=generateNumber()" ng-init="x=0">Draw number</button>
+    <p>number is :{{x}}</p>
+</div>
+<script>
+    angular.module('app',[])
+            .controller("MyController", function ($scope) {
+                $scope.generateNumber= function () {
+                    return Math.floor((Math.random()*10)+1);
+                }
+            })
+</script>
+</body>
+</html>

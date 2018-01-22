@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--当angular编译dom时,会查找花括号{{}}内的表达式,这些表达式会被自动注册到$watch服务中并更新到$digest循环中,成为它的一部分-->
+<!--有时候浏览器会对属性进行很苛刻的限制,SVG就是一个例子-->
+<!--<svg><circle cx="{{cx}}"></circle></svg>-->
+<!--运行上面的代码会抛出一个错误,指出有一个非法属性,可以用ng-attr-cx来解决,注意,cx位于尾部,-->
+<svg><circle ng-attr-cx="{{cx}}"></circle></svg>
+
+<script>
+//    angular.module('app',[])
+//            .controller('MyController', function () {
+//
+//            })
+</script>
+</body>
+</html>

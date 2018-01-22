@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<div ng-controller="MyController">
+    <h6>Hello </h6>
+    <h1>Hello {{ clock.now }}</h1>
+</div>
+<script>
+    var app=angular.module("app",[]);
+    app.controller("MyController",MyController);
+    function MyController($scope){
+        $scope.clock={
+            now:new Date()
+        };
+        var updateClock = function () {
+            $scope.clock.now = new Date()
+        };
+       setInterval(function(){
+           $scope.$apply(updateClock);
+       },1000);
+       updateClock();
+    };
+</script>
+</body>
+</html>

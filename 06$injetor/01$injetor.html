@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--angular使用$injetor(注入服务器)来管理依赖关系的查询和实例化,事实上,$injetor负责实例化angular所有的组件,包括应用的模块,指令和控制器等-->
+<!--在运行时,任何模块启动时$injetor都会负责实例化,并将其需要的所有依赖传递进去-->
+<div ng-app="app">
+    <div ng-controller="MyController">
+        <button ng-click="sayHello()">点击打招呼</button>
+    </div>
+</div>
+<script>
+    angular.module('app',[])
+            .factory('greeter', function () {
+                return{
+                    greet: function (msg) {
+                        alert(msg);
+                    }
+                }
+            })
+            .controller('MyController', function ($scope,greeter) {
+                $scope.sayHello = function () {
+                    greeter.greet("hello");
+                }
+            })
+    //当angular实例化这个模块时,会查找greeter并自然而然地把对它的引用传递进去
+
+    //而在内部,处理过程是这样的:
+    //使用注入器加载应用  var injetor = angular.injetor(['ng','app']);
+    //通过注入器加载$controller服务:var $controller = injetor.get('$controller'); var scope= injetor.get('$rootScope').$new();
+    //加载器控制并传入一个作用域,同angular在运行时做的一样 var MyController = $controller('MyController',{$scope:scope})
+    //$injetor负责查找并加载greeter
+
+    //通过annotate函数,在实例化时从传入的函数中把参数列表提取出来
+
+    /*
+    //依赖注入 以下五个核心组件用来作为依赖注入
+    1.value是一个简单的js对象,用于向控制器传值(配置阶段)
+    2.factory是一个函数用于返回值,在service和controller需要时创建
+    3.provider创建一个service,factory等(配置阶段), Provider中提供了一个factory方法get(),用于返回value/service/factory
+    4.constant,常量,用来在配置阶段传递数值,注意这个常量在配置阶段是不可用的
+    */
+</script>
+</body>
+</html>

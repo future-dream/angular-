@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<a href="{{myHref}}">I'm  feeling 404;</a>
+
+<br>
+<h1>wrong way</h1>
+<img src="{{imgSrc}}">
+<!--控制台加载资源会有问题,原因src代替了ng-src-->
+<!--用于当前作用域中的属性动态创建url时,用ng-href代替href-->
+<h1>right way</h1>
+<img ng-src="{{imgSrc}}">
+<script>
+    angular.module("app",[])
+            .run(function ($rootScope,$timeout) {
+                $timeout(function () {
+                    $rootScope.myHref="http://www.baidu.com";
+                    $rootScope.imgSrc="http://img2.imgtn.bdimg.com/it/u=2864044652,2212129269&fm=214&gp=0.jpg"
+                },2000)
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ngView和ngIf,后者ngIf优先级略高,如果ngIf的表达式是true,ngView就可以正常执行,如果false,由于ngView的优先级较低就不会执行-->
+
+<!--ng-if与ng-show,ng-hide本质的区别是,它不是通过css隐藏或显示DOM节点,而是真正的移除或生成节点-->
+
+    <div ng-if="2+2==5">
+        won't see the dom
+    </div>
+    <div ng-if="2+2==4">
+        hihihi
+    </div>
+<script>
+
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    input.ng-invalid{
+        border:1px solid red;
+    }
+    input.ng-valid{
+        border:1px solid blue;
+    }
+</style>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ng-form 用来在一个表单内部嵌套另一个表单,普通的html<form>不可以-->
+<!--意味着内部所有的子表单都合法时,外部的表单才会合法,这对于ng-repeat动态创建表单是有用的-->
+<!--由于不能通过字符插值来给输入元素动态的生成name属性,所有需要将ng-form指令内每组重复的输入字段都包含在一个外部表单元素内-->
+<!--
+下面的css类会根据表单的验证状态自动设置:
+表单合法时设置ng-valid
+表单不合法时设置ng-invalid
+表单未进行修改时设置ng-pristion
+表单进行过修改时设置ng-dirty
+angular不会将表单提交到服务器,除非指定了action属性,提交表单调用的哪个方法用指令ng-submit(在表单元素上使用),或者ng-click(在第一个按钮或submit类型的输入字段上使用)
+-->
+<!--下面例子显示-->
+<form name="signup_form" ng-controller="MyController" ng-submit="submitForm" novalidate>
+    <div ng-repeat="filed in fileds" ng-form="signup_form_input">
+        <input type="text" name="dynamic_input" ng-required="filed.isRequired" ng-model="filed.name" placeholder="{{filed.placeholder}}">
+        <div ng-show="signup_form_input.dynamic_input.$dirty && signup_form_input.dynamic_input.$invalid">
+            <span class="error" ng-show="signup_form_input.dynamic_input.$error.required">
+                the field is required
+            </span>
+        </div>
+    </div>
+    <button type="submit" ng-disabled="signup_form.$invalid">Submit all</button>
+</form>
+<script>
+    angular.module("app",[])
+    .controller("MyController", function ($scope) {
+        $scope.fileds=[
+            {placeholder:'Username',isRequired:true},
+            {placeholder:'Password',isRequired:true},
+            {placeholder:'Email',isRequired:false}
+        ];
+        $scope.submitForm= function () {
+            alert("It works");
+        }
+    })
+</script>
+</body>
+</html>

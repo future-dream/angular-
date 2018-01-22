@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="../js/angularjs/angular.min.js"></script>
+<body>
+<!--ng-select用来将数据同HTML的<select>元素进行绑定,这个指令可以和ng-model以及ng-options指令一同使用,构建动态表单-->
+<!--ng-options的值可以是一个内涵表达式,接受一个对象或数组,并对他们进行循环,将内部的内容提供给select标签内部的选项-->
+<!--1.数组作为数据源
+用数组中的值做标签
+用数组中的值作为选中的标签
+用数组中的值做标签组
+用数组中的值作为选中的标签组
+-->
+<!--2.用对象作为数据源
+用对象的键-值做标签
+用对象的键-值作为选中的标签
+用对象的键-值做标签组
+用对象的键-值作为选中的标签组
+-->
+<div ng-controller="MyController">
+    <select ng-model="city" ng-options="city.name for city in cities">
+        <option value="">choose city</option>
+    </select>
+    best city:{{city.name}}
+</div>
+<script>
+    angular.module("app",[])
+            .controller("MyController", function ($scope) {
+                $scope.cities=[
+                    {name:'Seattle'},
+                    {name:'Fan Francisio'},
+                    {name:'Chicago'},
+                    {name:'New York'},
+                    {name:'China'},
+
+                ]
+            })
+</script>
+</body>
+</html>
